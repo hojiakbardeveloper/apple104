@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter & SF Pro Display Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"SF Pro Display"',
+              '"SF Pro Text"',
+              'Inter',
+              'Helvetica Neue',
+              'Arial',
+              'sans-serif',
+            ],
+          },
+          colors: {
+            apple: {
+              bg: '#f5f5f7',
+              dark: '#000000',
+              cardDark: '#161617',
+              text: '#1d1d1f',
+              muted: '#6e6e73',
+              blue: '#0071e3',
+              blueHover: '#0077ed',
+              border: '#d2d2d7',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Custom Apple Typography & Smooth Rendering */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #1d1d1f;
+      overflow-x: hidden;
+    }
+
+    /* Frosted Glass Global Navigation */
+    .apple-nav {
+      background: rgba(251, 251, 253, 0.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      transition: background-color 0.35s cubic-bezier(0.28, 0.11, 0.32, 1);
+    }
+
+    .apple-nav.menu-open {
+      background: rgba(251, 251, 253, 0.98);
+    }
+
+    /* Mega Menu Dropdown Animation */
+    .mega-menu-drawer {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-8px);
+      transition:
+        max-height 0.42s cubic-bezier(0.28, 0.11, 0.32, 1),
+        opacity 0.28s ease,
+        transform 0.38s cubic-bezier(0.28, 0.11, 0.32, 1);
+    }
+
+    .mega-menu-drawer.active {
+      max-height: 440px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Page Blur Backdrop when Nav Dropdown Active */
+    .page-blur-overlay {
+      opacity: 0;
+      pointer-events: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(232, 232, 237, 0.45);
+      transition: opacity 0.35s ease;
+    }
+
+    .page-blur-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Apple Intelligence Iridescent Gradient */
+    .apple-intelligence-text {
+      background: linear-gradient(
+        90deg,
+        #0090f7 0%,
+        #ba62fc 33%,
+        #f2416b 66%,
+        #f55600 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: intelligenceShift 6s ease infinite;
+    }
+
+    @keyframes intelligenceShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* HomeView Floating Device Animations (Matching Reference Image) */
+    @keyframes floatSlowCenter {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes floatSlowLeft {
+      0%, 100% { transform: perspective(900px) rotateY(22deg) rotateZ(-2deg) translateY(0px); }
+      50% { transform: perspective(900px) rotateY(20deg) rotateZ(-1deg) translateY(-6px); }
+    }
+
+    @keyframes floatSlowRight {
+      0%, 100% { transform: perspective(900px) rotateY(-22deg) rotateZ(2deg) translateY(0px); }
+      50% { transform: perspective(900px) rotateY(-20deg) rotateZ(1deg) translateY(-6px); }
+    }
+
+    .homeview-center-anim {
+      animation: floatSlowCenter 5.5s ease-in-out infinite;
+    }
+
+    .homeview-left-anim {
+      transform: perspective(900px) rotateY(22deg) rotateZ(-2deg);
+      animation: floatSlowLeft 6s ease-in-out infinite;
+    }
+
+    .homeview-right-anim {
+      transform: perspective(900px) rotateY(-22deg) rotateZ(2deg);
+      animation: floatSlowRight 6.2s ease-in-out infinite;
+    }
+
+    .animations-paused .homeview-center-anim,
+    .animations-paused .homeview-left-anim,
+    .animations-paused .homeview-right-anim,
+    .animations-paused .bubble-float,
+    .animations-paused .eq-bar {
+      animation-play-state: paused !important;
+    }
+
+    /* Acoustic Speaker Mesh Texture */
+    .speaker-mesh {
+      background-color: #d8d8dc;
+      background-image:
+        radial-gradient(#9b9ba1 1.15px, transparent 1.15px),
+        radial-gradient(#b4b4ba 1.15px, #e3e3e7 1.15px);
+      background-size: 6px 6px;
+      background-position: 0 0, 3px 3px;
+      box-shadow:
+        inset 10px 0 18px rgba(0, 0, 0, 0.14),
+        inset -10px 0 18px rgba(0, 0, 0, 0.14),
+        inset 0 -6px 12px rgba(0, 0, 0, 0.18),
+        0 18px 28px -10px rgba(0, 0, 0, 0.25);
+    }
+
+    .speaker-mesh-warm {
+      background-color: #dcd6ce;
+      background-image:
+        radial-gradient(#9e978e 1.15px, transparent 1.15px),
+        radial-gradient(#b8b1a8 1.15px, #e6e1da 1.15px);
+      background-size: 6px 6px;
+      background-position: 0 0, 3px 3px;
+      box-shadow:
+        inset 10px 0 18px rgba(0, 0, 0, 0.14),
+        inset -10px 0 18px rgba(0, 0, 0, 0.14),
+        inset 0 -6px 12px rgba(0, 0, 0, 0.18),
+        0 18px 28px -10px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Equalizer Bars on Left HomeView Screen */
+    @keyframes eqBounce {
+      0%, 100% { height: 6px; }
+      50% { height: 18px; }
+    }
+    .eq-bar {
+      animation: eqBounce 1.1s ease-in-out infinite;
+    }
+
+    /* Bubblegum subtle pulse in center HomeView display */
+    @keyframes bubblePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+    .bubble-float {
+      animation: bubblePulse 4s ease-in-out infinite;
+    }
+
+    /* Scroll Reveal Animations */
+    .reveal-section {
+      opacity: 0;
+      transform: translateY(34px);
+      transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Continuous Services Marquee */
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .services-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 36s linear infinite;
+    }
+
+    .services-marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* AirPods Sound Wave Rings */
+    @keyframes soundWave {
+      0% { transform: scale(0.85); opacity: 0.75; }
+      100% { transform: scale(1.55); opacity: 0; }
+    }
+    .wave-ring {
+      animation: soundWave 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    /* Hide scrollbar cleanly */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="font-sans text-[#1d1d1f] selection:bg-[#0071e3] selection:text-white">
+
+  <!-- =========================================================
+       1. TOP GLOBAL NAVIGATION BAR (STICKY FROSTED GLASS)
+  ========================================================== -->
+  <header id="globalHeader" class="apple-nav fixed top-0 left-0 right-0 z-50 border-b border-black/[0.04]">
+    <nav class="max-w-[1024px] mx-auto px-4 sm:px-6 h-[44px] flex items-center justify-between text-[12px] font-normal tracking-[-0.01em] text-[#1d1d1f]/85">
+      <!-- Apple Logo -->
+      <a href="#top" aria-label="Apple Home" class="p-1.5 -ml-1.5 text-[#1d1d1f] hover:opacity-70 transition-opacity">
+        <svg class="w-[14px] h-[17px] fill-current" viewBox="0 0 14 17" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/>
+        </svg>
+      </a>
+
+      <!-- Desktop Navigation Items -->
+      <ul class="hidden lg:flex items-center justify-between flex-1 px-6">
+        <li><button data-menu="store" class="nav-trigger hover:text-black transition-colors py-2">Store</button></li>
+        <li><button data-menu="mac" class="nav-trigger hover:text-black transition-colors py-2">Mac</button></li>
+        <li><button data-menu="ipad" class="nav-trigger hover:text-black transition-colors py-2">iPad</button></li>
+        <li><button data-menu="iphone" class="nav-trigger hover:text-black transition-colors py-2">iPhone</button></li>
+        <li><button data-menu="watch" class="nav-trigger hover:text-black transition-colors py-2">Watch</button></li>
+        <li><button data-menu="vision" class="nav-trigger hover:text-black transition-colors py-2">Vision</button></li>
+        <li><button data-menu="airpods" class="nav-trigger hover:text-black transition-colors py-2">AirPods</button></li>
+        <li><button data-menu="home" class="nav-trigger hover:text-black transition-colors py-2">Home</button></li>
+        <li><button data-menu="entertainment" class="nav-trigger hover:text-black transition-colors py-2">Entertainment</button></li>
+        <li><button data-menu="accessories" class="nav-trigger hover:text-black transition-colors py-2">Accessories</button></li>
+        <li><button data-menu="support" class="nav-trigger hover:text-black transition-colors py-2">Support</button></li>
+      </ul>
+
+      <!-- Right Action Icons: Search, Bag, Mobile Menu -->
+      <div class="flex items-center gap-4 sm:gap-5">
+        <!-- Search Button -->
+        <button id="searchToggleBtn" aria-label="Search apple.com" class="p-1.5 text-[#1d1d1f]/85 hover:text-black transition-colors">
+          <svg class="w-[15px] h-[15px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+            <circle cx="10.5" cy="10.5" r="6.75" />
+            <path stroke-linecap="round" d="M15.5 15.5L20.5 20.5" />
+          </svg>
+        </button>
+
+        <!-- Shopping Bag Button -->
+        <button id="bagToggleBtn" aria-label="Shopping Bag" class="relative p-1.5 text-[#1d1d1f]/85 hover:text-black transition-colors">
+          <svg class="w-[15px] h-[16px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 8.5h11l.9 11.2a1.5 1.5 0 0 1-1.49 1.63H7.09a1.5 1.5 0 0 1-1.49-1.63L6.5 8.5Z" />
+            <path stroke-linecap="round" d="M9 8.5V6.75a3 3 0 0 1 6 0V8.5" />
+          </svg>
+          <span id="bagBadge" class="hidden absolute -bottom-0.5 -right-0.5 min-w-[14px] h-[14px] px-1 rounded-full bg-[#1d1d1f] text-white text-[9px] font-semibold flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="mobileMenuBtn" aria-label="Toggle Menu" class="lg:hidden p-1.5 -mr-1.5 text-[#1d1d1f]">
+          <svg id="hamburgerIcon" class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" d="M4 8h16M4 16h16" />
+          </svg>
+          <svg id="closeMobileIcon" class="hidden w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mega-Menu / Search / Bag Dropdown Drawer -->
+    <div id="navMegaDrawer" class="mega-menu-drawer bg-[#fbfbfd] border-b border-black/[0.06]">
+      <div id="megaDrawerContent" class="max-w-[1024px] mx-auto px-6 py-9">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+
+    <!-- Mobile Fullscreen Drawer -->
+    <div id="mobileNavDrawer" class="hidden lg:hidden fixed inset-x-0 top-[44px] bottom-0 bg-[#fbfbfd] z-50 overflow-y-auto px-8 py-6">
+      <ul class="space-y-3 text-[26px] font-semibold tracking-tight text-[#1d1d1f]">
+        <li><a href="#homeview" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Store</a></li>
+        <li><a href="#macbook" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Mac</a></li>
+        <li><a href="#bento-grid" class="mobile-nav-link block py-1 hover:text-[#0071e3]">iPad</a></li>
+        <li><a href="#iphone17" class="mobile-nav-link block py-1 hover:text-[#0071e3]">iPhone</a></li>
+        <li><a href="#bento-grid" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Watch</a></li>
+        <li><a href="#bento-grid" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Vision</a></li>
+        <li><a href="#bento-grid" class="mobile-nav-link block py-1 hover:text-[#0071e3]">AirPods</a></li>
+        <li><a href="#homeview" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Home</a></li>
+        <li><a href="#apple-tv-carousel" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Entertainment</a></li>
+        <li><a href="#footer" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Accessories</a></li>
+        <li><a href="#footer" class="mobile-nav-link block py-1 hover:text-[#0071e3]">Support</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Page Backdrop Blur Overlay -->
+  <div id="pageBlurOverlay" class="page-blur-overlay fixed inset-0 z-40"></div>
+
+  <!-- Main Content -->
+  <main id="top" class="pt-[44px]">
+
+    <!-- =========================================================
+         2. HERO SECTION 1 — APPLE HOMEVIEW (MATCHING REFERENCE SCREENSHOT)
+    ========================================================== -->
+    <section id="homeview" class="relative bg-[#f5f5f7] overflow-hidden pt-12 sm:pt-16 pb-10 sm:pb-14 border-b border-white">
+      <!-- Top-Right Interactive Play / Pause Circular Button (Exact match to screenshot) -->
+      <button
+        id="homeviewAnimToggle"
+        aria-label="Pause or play HomeView animation"
+        title="Pause / Play animation"
+        class="absolute top-5 right-5 sm:top-7 sm:right-7 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#e2e2e6] hover:bg-[#d6d6db] active:scale-95 text-[#424245] flex items-center justify-center transition-all shadow-xs"
+      >
+        <!-- Pause Icon (Default visible) -->
+        <svg id="hvPauseIcon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 14 14">
+          <rect x="2.5" y="2" width="3" height="10" rx="0.8" />
+          <rect x="8.5" y="2" width="3" height="10" rx="0.8" />
+        </svg>
+        <!-- Play Icon (Hidden initially) -->
+        <svg id="hvPlayIcon" class="hidden w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 14 14">
+          <path d="M3 2.2a.8.8 0 0 1 1.22-.68l7.5 4.8a.8.8 0 0 1 0 1.36l-7.5 4.8A.8.8 0 0 1 3 11.8V2.2Z" />
+        </svg>
+      </button>
+
+      <!-- Centered Headline & Pill CTAs -->
+      <div class="max-w-[980px] mx-auto px-4 text-center relative z-10">
+        <div class="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1.5">
+          <!-- Crisp Apple Logo matching title scale -->
+          <svg class="w-[34px] h-[41px] sm:w-[44px] sm:h-[53px] fill-[#000000] -mt-1.5" viewBox="0 0 14 17">
+            <path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/>
+          </svg>
+          <h1 class="text-[40px] sm:text-[56px] font-semibold tracking-[-0.025em] leading-[1.07] text-[#000000]">
+            HomeView
+          </h1>
+        </div>
+
+        <p class="text-[21px] sm:text-[28px] font-normal tracking-[-0.015em] text-[#1d1d1f] leading-[1.2]">
+          Designed for life at home.
+        </p>
+
+        <!-- Pill CTA Buttons -->
+        <div class="mt-5 sm:mt-6 flex items-center justify-center gap-3.5">
+          <button
+            onclick="openProductModal('homeview', 'learn')"
+            class="px-5 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[15px] sm:text-[17px] font-normal tracking-[-0.01em] transition-all cursor-pointer"
+          >
+            Learn more
+          </button>
+          <button
+            onclick="openProductModal('homeview', 'buy')"
+            class="px-5 py-2.5 rounded-full border border-[#0071e3] text-[#0071e3] hover:bg-[#0071e3] hover:text-white text-[15px] sm:text-[17px] font-normal tracking-[-0.01em] transition-all cursor-pointer"
+          >
+            Buy
+          </button>
+        </div>
+      </div>
+
+      <!-- Three HomeView Smart Display & Acoustic Speaker Units (Faithful Recreation of Reference Image) -->
+      <div id="homeviewStage" class="max-w-[1040px] mx-auto mt-10 sm:mt-14 px-4">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-4 lg:gap-7 select-none">
+
+          <!-- LEFT DEVICE: Angled Music Player Display + Silver Acoustic Speaker Base -->
+          <div class="homeview-left-anim relative flex flex-col items-center group cursor-pointer" onclick="cycleHomeViewScene('music')">
+            <!-- Screen Frame (Anodized Silver Aluminum Bezel) -->
+            <div class="w-[215px] h-[215px] sm:w-[235px] sm:h-[235px] rounded-[34px] p-[8px] bg-gradient-to-br from-[#e7e7ec] via-[#c7c7ce] to-[#9b9ba3] shadow-[0_24px_45px_rgba(0,0,0,0.18)] relative z-10">
+              <div class="w-full h-full rounded-[27px] bg-[#0c0c0e] p-[7px] overflow-hidden relative">
+                <!-- Album Art / Now Playing UI -->
+                <div class="w-full h-full rounded-[21px] relative overflow-hidden bg-gradient-to-b from-[#a7c2d6] via-[#c7d7e2] to-[#687a89] flex flex-col justify-between p-4 text-white">
+                  <!-- Soft sky & dancer silhouette illustration -->
+                  <div class="flex items-center justify-between text-[10px] font-medium opacity-85">
+                    <span>Apple Music</span>
+                    <div class="flex items-end gap-[2px] h-3">
+                      <span class="eq-bar w-[2px] bg-white rounded-full" style="animation-delay: 0s"></span>
+                      <span class="eq-bar w-[2px] bg-white rounded-full" style="animation-delay: 0.25s"></span>
+                      <span class="eq-bar w-[2px] bg-white rounded-full" style="animation-delay: 0.5s"></span>
+                    </div>
+                  </div>
+
+                  <!-- Stylized Artistic Figure -->
+                  <div class="my-auto flex flex-col items-center">
+                    <svg class="w-20 h-20 drop-shadow-md" viewBox="0 0 100 100">
+                      <circle cx="54" cy="24" r="6" fill="#2c242b" />
+                      <path d="M52 31 L34 45 L46 53 L42 78 L51 78 L56 56 L72 68 L77 62 L58 46 L68 33 Z" fill="#c93b2b" />
+                      <path d="M34 45 L22 39" stroke="#2c242b" stroke-width="3.2" stroke-linecap="round" />
+                      <path d="M68 33 L79 25" stroke="#2c242b" stroke-width="3.2" stroke-linecap="round" />
+                    </svg>
+                  </div>
+
+                  <!-- Playback Controls -->
+                  <div class="bg-black/35 backdrop-blur-md rounded-2xl p-2.5">
+                    <div class="text-[10px] font-semibold tracking-wider uppercase truncate">FEVER DREAM</div>
+                    <div class="text-[9px] text-white/75 truncate">Spatial Audio Mix</div>
+                    <div class="w-full h-1 bg-white/25 rounded-full mt-2 overflow-hidden">
+                      <div class="w-2/3 h-full bg-white rounded-full"></div>
+                    </div>
+                    <div class="flex items-center justify-around mt-2 text-white">
+                      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+                      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cylindrical Mesh Speaker Stand Behind/Below -->
+            <div class="flex items-end -mt-10 ml-6 relative z-0">
+              <div class="w-[82px] h-[96px] rounded-t-[36px] rounded-b-[18px] bg-gradient-to-b from-[#f3f3f5] to-[#d9d9de] shadow-md -mr-7 mb-1 border border-white/80"></div>
+              <div class="w-[146px] h-[82px] rounded-b-[22px] rounded-t-[10px] speaker-mesh"></div>
+            </div>
+          </div>
+
+          <!-- CENTER DEVICE: Main Front-Facing Square Display with 10:09 Clock & Bubblegum Portrait -->
+          <div class="homeview-center-anim relative flex flex-col items-center z-20 cursor-pointer" onclick="cycleHomeViewScene('clock')">
+            <!-- Outer Silver Aluminum Chassis -->
+            <div class="w-[265px] h-[265px] sm:w-[295px] sm:h-[295px] rounded-[42px] p-[9px] bg-gradient-to-b from-[#ededf0] via-[#d2d2d8] to-[#a6a6ae] shadow-[0_30px_60px_rgba(0,0,0,0.22)]">
+              <!-- Inner Black Glass Bezel -->
+              <div class="w-full h-full rounded-[34px] bg-[#0a0a0c] p-[9px] relative overflow-hidden">
+                <!-- Tiny Top Camera Sensor -->
+                <div class="w-2 h-2 rounded-full bg-[#1f242d] border border-white/10 mx-auto mb-[3px]"></div>
+                <!-- Active Screen -->
+                <div id="centerHomeScreen" class="w-full h-[calc(100%-9px)] rounded-[26px] relative overflow-hidden bg-gradient-to-b from-[#8bb5c9] via-[#a7c8be] to-[#6b8b6e] flex flex-col items-center justify-between">
+                  <!-- Large Layered Lockscreen / Standby Clock "10:09" -->
+                  <div id="homeviewClockDisplay" class="mt-2 text-[68px] sm:text-[78px] font-bold tracking-[-0.04em] leading-none text-white/80 select-none drop-shadow-sm">
+                    10:09
+                  </div>
+
+                  <!-- Stylized Artistic Portrait with Pink Bubblegum (Matching Reference Image Composition) -->
+                  <div class="absolute inset-x-0 bottom-0 h-[82%] flex items-end justify-center pointer-events-none">
+                    <svg class="w-full h-full" viewBox="0 0 260 220" preserveAspectRatio="xMidYMax slice">
+                      <defs>
+                        <radialGradient id="bubbleGrad" cx="35%" cy="35%" r="65%">
+                          <stop offset="0%" stop-color="#ffd6e5" stop-opacity="0.95" />
+                          <stop offset="55%" stop-color="#f39ab8" stop-opacity="0.88" />
+                          <stop offset="100%" stop-color="#d46b8e" stop-opacity="0.92" />
+                        </radialGradient>
+                        <linearGradient id="sweaterGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#e55d87" />
+                          <stop offset="100%" stop-color="#b83b64" />
+                        </linearGradient>
+                      </defs>
+                      <!-- Soft Foliage Bokeh Circles -->
+                      <circle cx="35" cy="150" r="42" fill="#597d56" opacity="0.45" />
+                      <circle cx="225" cy="140" r="48" fill="#6b9164" opacity="0.45" />
+                      <!-- Blonde Hair Back -->
+                      <path d="M88 68 C75 105, 76 145, 86 175 L174 175 C184 145, 185 105, 172 68 Z" fill="#d6b46c" />
+                      <!-- Pink Ribbed Sweater -->
+                      <path d="M68 220 C72 168, 95 152, 130 152 C165 152, 188 168, 192 220 Z" fill="url(#sweaterGrad)" />
+                      <!-- Face -->
+                      <ellipse cx="130" cy="95" rx="33" ry="40" fill="#f3c6a5" />
+                      <!-- Hair Bangs -->
+                      <path d="M96 86 C102 52, 158 52, 164 86 C152 68, 108 68, 96 86 Z" fill="#e2c37c" />
+                      <!-- Eyes -->
+                      <circle cx="117" cy="88" r="3.2" fill="#3a2e28" />
+                      <circle cx="143" cy="88" r="3.2" fill="#3a2e28" />
+                      <!-- Hands Raised Near Face -->
+                      <path d="M84 162 C82 128, 92 104, 101 102 C107 101, 108 118, 103 145 Z" fill="#f0be9b" />
+                      <path d="M176 162 C178 128, 168 104, 159 102 C153 101, 152 118, 157 145 Z" fill="#f0be9b" />
+                      <!-- Pink Bubblegum -->
+                      <g class="bubble-float" style="transform-origin: 130px 124px;">
+                        <circle cx="130" cy="124" r="24" fill="url(#bubbleGrad)" />
+                        <ellipse cx="122" cy="115" rx="6" ry="3.5" transform="rotate(-25 122 115)" fill="#ffffff" opacity="0.65" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Center Cylinder Speaker Base -->
+            <div class="w-[168px] h-[54px] -mt-2 rounded-b-[20px] speaker-mesh relative z-0"></div>
+          </div>
+
+          <!-- RIGHT DEVICE: Angled Cooking / Recipe Display + Warm Stone Speaker Base -->
+          <div class="homeview-right-anim relative flex flex-col items-center cursor-pointer" onclick="cycleHomeViewScene('recipe')">
+            <!-- Screen Frame -->
+            <div class="w-[225px] h-[225px] sm:w-[248px] sm:h-[248px] rounded-[36px] p-[8px] bg-gradient-to-bl from-[#ecece9] via-[#cecdc8] to-[#9e9d97] shadow-[0_24px_45px_rgba(0,0,0,0.18)] relative z-10">
+              <div class="w-full h-full rounded-[29px] bg-[#0b0b0d] p-[8px] overflow-hidden">
+                <!-- Recipe App UI: Butternut Squash Soup -->
+                <div class="w-full h-full rounded-[22px] bg-[#1a1510] relative overflow-hidden flex flex-col justify-between p-3.5 text-white">
+                  <!-- Top bar -->
+                  <div class="flex items-center justify-between text-[10px] text-white/80 z-10">
+                    <span class="w-5 h-5 rounded-full bg-black/45 flex items-center justify-center">✕</span>
+                    <span class="font-medium">10:09</span>
+                  </div>
+
+                  <!-- Illustrated Bowl of Butternut Squash Soup -->
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-[175px] h-[175px] rounded-full bg-[#f4f1ea] shadow-inner flex items-center justify-center p-2.5">
+                      <div class="w-full h-full rounded-full bg-gradient-to-br from-[#e98a15] via-[#d96b08] to-[#b84c04] relative overflow-hidden shadow-inner">
+                        <!-- Cream swirl & herb leaves -->
+                        <svg class="w-full h-full" viewBox="0 0 120 120">
+                          <path d="M35 65 C45 45, 78 48, 82 66 C85 82, 52 88, 45 72" fill="none" stroke="#fff3db" stroke-width="3" stroke-linecap="round" opacity="0.75" />
+                          <ellipse cx="64" cy="56" rx="9" ry="4" transform="rotate(-25 64 56)" fill="#4d7c32" />
+                          <ellipse cx="73" cy="63" rx="7" ry="3.2" transform="rotate(15 73 63)" fill="#5f943f" />
+                          <!-- Metallic Spoon -->
+                          <ellipse cx="48" cy="36" rx="14" ry="18" transform="rotate(-28 48 36)" fill="#d6d8dc" />
+                          <rect x="33" y="4" width="6" height="26" rx="3" transform="rotate(-28 33 4)" fill="#bfc2c7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Recipe Overlay & Pill Actions -->
+                  <div class="relative z-10 bg-gradient-to-t from-black/85 via-black/55 to-transparent -mx-3.5 -mb-3.5 p-3.5 pt-6">
+                    <div class="text-[12px] font-semibold leading-tight">Butternut Squash Soup</div>
+                    <div class="text-[9px] text-white/70 mt-0.5">Home Cookbook • 35 min • Serves 4</div>
+                    <div class="grid grid-cols-2 gap-1.5 mt-2.5">
+                      <span class="py-1 px-2 rounded-full bg-white/20 backdrop-blur-md text-[9px] text-center font-medium">≡ Ingredients</span>
+                      <span class="py-1 px-2 rounded-full bg-white/25 backdrop-blur-md text-[9px] text-center font-medium">▶ Start Cooking</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Warm Cylindrical Speaker Base -->
+            <div class="w-[152px] h-[76px] -mt-8 rounded-b-[22px] speaker-mesh-warm relative z-0"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. HERO SECTION 2 — IPHONE 17 PRO (DARK TITANIUM SHOWCASE)
+    ========================================================== -->
+    <section id="iphone17" class="reveal-section bg-[#000000] text-white pt-14 sm:pt-20 pb-0 overflow-hidden mt-3">
+      <div class="max-w-[980px] mx-auto px-4 text-center">
+        <h2 class="text-[36px] sm:text-[56px] font-semibold tracking-[-0.025em] leading-[1.07]">
+          iPhone 17 Pro
+        </h2>
+        <p class="mt-1.5 text-[21px] sm:text-[28px] font-medium tracking-[-0.015em] apple-intelligence-text">
+          Hello, Apple Intelligence.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="mt-5 flex items-center justify-center gap-3.5">
+          <button
+            onclick="openProductModal('iphone17pro', 'learn')"
+            class="px-5 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[15px] sm:text-[17px] transition-all cursor-pointer"
+          >
+            Learn more
+          </button>
+          <button
+            onclick="openProductModal('iphone17pro', 'buy')"
+            class="px-5 py-2.5 rounded-full border border-[#2997ff] text-[#2997ff] hover:bg-[#2997ff] hover:text-white text-[15px] sm:text-[17px] transition-all cursor-pointer"
+          >
+            Buy
+          </button>
+        </div>
+
+        <!-- Interactive Titanium Finish Selector -->
+        <div class="mt-7 flex flex-col items-center">
+          <div class="flex items-center gap-3 bg-white/[0.08] px-4 py-2 rounded-full backdrop-blur-md border border-white/10">
+            <button data-finish="Desert Titanium" data-chassis="#c7b299" data-glow="rgba(214, 184, 150, 0.38)" class="titanium-swatch w-5 h-5 rounded-full bg-[#c7b299] ring-2 ring-white ring-offset-2 ring-offset-black transition-all cursor-pointer" title="Desert Titanium"></button>
+            <button data-finish="Natural Titanium" data-chassis="#a8a59e" data-glow="rgba(185, 182, 175, 0.35)" class="titanium-swatch w-5 h-5 rounded-full bg-[#a8a59e] opacity-75 hover:opacity-100 transition-all cursor-pointer" title="Natural Titanium"></button>
+            <button data-finish="White Titanium" data-chassis="#e5e5e7" data-glow="rgba(235, 235, 240, 0.35)" class="titanium-swatch w-5 h-5 rounded-full bg-[#e5e5e7] opacity-75 hover:opacity-100 transition-all cursor-pointer" title="White Titanium"></button>
+            <button data-finish="Black Titanium" data-chassis="#3a3a3d" data-glow="rgba(110, 120, 145, 0.35)" class="titanium-swatch w-5 h-5 rounded-full bg-[#3a3a3d] opacity-75 hover:opacity-100 transition-all cursor-pointer" title="Black Titanium"></button>
+          </div>
+          <span id="titaniumFinishLabel" class="mt-2 text-[12px] text-[#86868b] tracking-wide">
+            Desert Titanium
+          </span>
+        </div>
+
+        <!-- Sleek Horizontal + Vertical iPhone 17 Pro Hardware Render -->
+        <div class="mt-10 sm:mt-14 relative flex justify-center items-end">
+          <!-- Ambient Titanium Glow -->
+          <div id="iphoneAmbientGlow" class="absolute -top-6 w-[320px] sm:w-[560px] h-[220px] rounded-full blur-[70px] transition-colors duration-500" style="background: rgba(214, 184, 150, 0.38);"></div>
+
+          <!-- Realistic CSS/SVG iPhone Pro Chassis -->
+          <div id="iphoneChassisFrame" class="relative w-[300px] sm:w-[640px] h-[250px] sm:h-[320px] rounded-t-[46px] p-[6px] pb-0 transition-colors duration-500 shadow-[0_-10px_50px_rgba(0,0,0,0.9)]" style="background: linear-gradient(135deg, #e3d3be 0%, #c7b299 45%, #7d6d5b 100%);">
+            <div class="w-full h-full rounded-t-[40px] bg-[#050507] p-3 pb-0 relative overflow-hidden flex flex-col items-center">
+              <!-- Dynamic Island -->
+              <div class="w-[105px] sm:w-[126px] h-[26px] sm:h-[30px] rounded-full bg-black border border-white/[0.08] mt-1.5 flex items-center justify-between px-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#151b29]"></span>
+                <span class="w-2 h-2 rounded-full bg-[#0090f7] animate-pulse"></span>
+              </div>
+
+              <!-- Glowing Siri / Apple Intelligence Edge Aura -->
+              <div class="mt-8 sm:mt-10 text-center px-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.07] border border-white/15 text-[12px] text-white/90">
+                  <span class="w-2 h-2 rounded-full bg-gradient-to-r from-[#0090f7] to-[#f2416b]"></span>
+                  A19 Pro • 48MP Fusion Camera System
+                </div>
+                <div class="mt-6 w-[220px] sm:w-[440px] h-[140px] sm:h-[180px] mx-auto rounded-t-[28px] bg-gradient-to-tr from-[#141726] via-[#261b30] to-[#3b261d] border-t border-x border-white/15 p-5 flex flex-col justify-between">
+                  <div class="flex justify-between items-center text-[11px] text-white/60">
+                    <span>ProRAW • 120mm 5x Optical</span>
+                    <span>4K 120 fps Dolby Vision</span>
+                  </div>
+                  <!-- Camera Lens Rings Visual -->
+                  <div class="flex items-center justify-center gap-5 my-auto">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0d0d10] border-2 border-white/25 shadow-inner flex items-center justify-center">
+                      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#0b1f3a] to-[#386fa4] border border-white/20"></div>
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0d0d10] border-2 border-white/25 shadow-inner flex items-center justify-center">
+                      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#1f1235] to-[#6930c3] border border-white/20"></div>
+                    </div>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0d0d10] border-2 border-white/25 shadow-inner flex items-center justify-center">
+                      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#132a13] to-[#4f772d] border border-white/20"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. HERO SECTION 3 — MACBOOK AIR / MACBOOK PRO (M4 SHOWCASE)
+    ========================================================== -->
+    <section id="macbook" class="reveal-section bg-[#f5f5f7] text-[#1d1d1f] pt-14 sm:pt-20 pb-14 sm:pb-20 overflow-hidden mt-3">
+      <div class="max-w-[980px] mx-auto px-4 text-center">
+        <h2 class="text-[36px] sm:text-[56px] font-semibold tracking-[-0.025em] leading-[1.07]">
+          MacBook Air
+        </h2>
+        <p class="mt-1.5 text-[21px] sm:text-[28px] font-normal tracking-[-0.015em] text-[#1d1d1f]">
+          Lean. Mean. M4 machine.
+        </p>
+
+        <div class="mt-5 flex items-center justify-center gap-3.5">
+          <button
+            onclick="openProductModal('macbookair', 'learn')"
+            class="px-5 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[15px] sm:text-[17px] transition-all cursor-pointer"
+          >
+            Learn more
+          </button>
+          <button
+            onclick="openProductModal('macbookair', 'buy')"
+            class="px-5 py-2.5 rounded-full border border-[#0071e3] text-[#0071e3] hover:bg-[#0071e3] hover:text-white text-[15px] sm:text-[17px] transition-all cursor-pointer"
+          >
+            Buy
+          </button>
+        </div>
+
+        <!-- Crisp Sleek MacBook Hardware Illustration -->
+        <div class="mt-12 sm:mt-16 max-w-[680px] mx-auto px-2">
+          <!-- Display Lid -->
+          <div class="w-[86%] mx-auto aspect-[16/10] rounded-t-[20px] sm:rounded-t-[26px] bg-[#141416] p-[8px] sm:p-[11px] pb-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.14)] relative border border-[#8e8e93]/40">
+            <!-- Camera Notch -->
+            <div class="w-16 sm:w-20 h-3 bg-[#141416] rounded-b-lg mx-auto absolute top-0 left-1/2 -translate-x-1/2 z-20"></div>
+            <!-- macOS Sequoia / Sonoma Wallpaper Gradient -->
+            <div class="w-full h-full rounded-[12px] sm:rounded-[16px] overflow-hidden relative bg-gradient-to-br from-[#0e387a] via-[#2c7da0] to-[#a9d6e5] flex flex-col justify-between p-4 sm:p-6">
+              <!-- Top macOS Menu Bar -->
+              <div class="flex items-center justify-between text-[10px] text-white/90 font-medium px-1">
+                <div class="flex items-center gap-3">
+                  <span></span>
+                  <span class="font-semibold">Finder</span>
+                  <span class="hidden sm:inline opacity-80">File</span>
+                  <span class="hidden sm:inline opacity-80">Edit</span>
+                  <span class="hidden sm:inline opacity-80">View</span>
+                </div>
+                <span>Tue 9:41 AM</span>
+              </div>
+
+              <!-- Center Abstract macOS Wave -->
+              <div class="my-auto text-center">
+                <span class="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-[12px] sm:text-[14px] font-medium border border-white/25">
+                  Supercharged by Apple M4
+                </span>
+              </div>
+
+              <!-- Bottom macOS Dock -->
+              <div class="mx-auto px-3 py-1.5 rounded-2xl bg-white/25 backdrop-blur-md border border-white/30 flex items-center gap-2 sm:gap-2.5">
+                <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-[#007aff]"></span>
+                <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-[#34c759]"></span>
+                <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-[#ff3b30]"></span>
+                <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-[#ff9500]"></span>
+                <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-[#af52de]"></span>
+                <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-[#5856d6]"></span>
+              </div>
+            </div>
+          </div>
+          <!-- Aluminum Unibody Base -->
+          <div class="w-full h-[14px] sm:h-[18px] bg-gradient-to-b from-[#e4e4e7] via-[#cfd0d4] to-[#9fa0a6] rounded-b-[14px] shadow-[0_14px_24px_-8px_rgba(0,0,0,0.22)] relative">
+            <div class="w-24 sm:w-32 h-[5px] bg-[#b4b5ba] rounded-b-md mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. 2-COLUMN BENTO PROMO GRID (6 APPLE PRODUCT CARDS)
+    ========================================================== -->
+    <section id="bento-grid" class="px-0 sm:px-3 pt-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <!-- CARD 1: APPLE WATCH SERIES 11 -->
+        <article class="reveal-section bg-[#f5f5f7] text-[#1d1d1f] pt-12 pb-10 px-6 flex flex-col items-center text-center overflow-hidden min-h-[520px] sm:min-h-[580px] justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-[28px] sm:text-[34px] font-bold tracking-[-0.02em]">
+              <svg class="w-6 h-7 fill-current -mt-1" viewBox="0 0 14 17"><path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/></svg>
+              <span>WATCH</span>
+            </div>
+            <div class="text-[12px] font-bold tracking-[0.18em] text-[#bf4800] uppercase mt-0.5">SERIES 11</div>
+            <p class="mt-2 text-[19px] sm:text-[21px] text-[#1d1d1f]">Thinstant classic.</p>
+            <div class="mt-4 flex items-center justify-center gap-3">
+              <button onclick="openProductModal('watch11', 'learn')" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] transition-all cursor-pointer">Learn more</button>
+              <button onclick="openProductModal('watch11', 'buy')" class="px-4 py-2 rounded-full border border-[#0071e3] text-[#0071e3] hover:bg-[#0071e3] hover:text-white text-[14px] transition-all cursor-pointer">Buy</button>
+            </div>
+          </div>
+
+          <!-- Apple Watch Hardware Mockup -->
+          <div class="mt-8 relative flex flex-col items-center">
+            <!-- Top Band -->
+            <div class="w-[92px] h-[52px] rounded-t-[22px] bg-gradient-to-b from-[#d8d8de] to-[#c4c4cc]"></div>
+            <!-- Watch Case -->
+            <div class="w-[164px] h-[196px] rounded-[42px] bg-gradient-to-br from-[#3a3a3e] via-[#1c1c1e] to-[#0a0a0c] p-[8px] shadow-[0_22px_40px_rgba(0,0,0,0.25)] relative">
+              <!-- Digital Crown -->
+              <div class="w-[6px] h-[28px] bg-[#2c2c2e] rounded-r-md absolute -right-[5px] top-10"></div>
+              <div class="w-full h-full rounded-[34px] bg-black flex flex-col items-center justify-center relative p-4">
+                <!-- Activity Rings SVG -->
+                <svg class="w-28 h-28" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#3a1019" stroke-width="10" />
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#fa114f" stroke-width="10" stroke-dasharray="235 290" stroke-linecap="round" transform="rotate(-90 60 60)" />
+                  <circle cx="60" cy="60" r="34" fill="none" stroke="#183810" stroke-width="10" />
+                  <circle cx="60" cy="60" r="34" fill="none" stroke="#a6ff00" stroke-width="10" stroke-dasharray="175 220" stroke-linecap="round" transform="rotate(-90 60 60)" />
+                  <circle cx="60" cy="60" r="22" fill="none" stroke="#0d353b" stroke-width="10" />
+                  <circle cx="60" cy="60" r="22" fill="none" stroke="#00f5ea" stroke-width="10" stroke-dasharray="115 140" stroke-linecap="round" transform="rotate(-90 60 60)" />
+                </svg>
+                <span class="text-[11px] font-semibold text-white/80 mt-1">10:09</span>
+              </div>
+            </div>
+            <!-- Bottom Band -->
+            <div class="w-[92px] h-[52px] rounded-b-[22px] bg-gradient-to-t from-[#d8d8de] to-[#c4c4cc]"></div>
+          </div>
+        </article>
+
+        <!-- CARD 2: APPLE VISION PRO -->
+        <article class="reveal-section bg-[#000000] text-white pt-12 pb-10 px-6 flex flex-col items-center text-center overflow-hidden min-h-[520px] sm:min-h-[580px] justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-[28px] sm:text-[34px] font-semibold tracking-[-0.02em]">
+              <svg class="w-6 h-7 fill-current -mt-1" viewBox="0 0 14 17"><path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/></svg>
+              <span>Vision Pro</span>
+            </div>
+            <p class="mt-2 text-[19px] sm:text-[21px] text-[#f5f5f7] max-w-[340px]">
+              Welcome to the era of spatial computing.
+            </p>
+            <div class="mt-4 flex items-center justify-center gap-3">
+              <button onclick="openProductModal('visionpro', 'learn')" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] transition-all cursor-pointer">Learn more</button>
+              <button onclick="openProductModal('visionpro', 'buy')" class="px-4 py-2 rounded-full border border-[#2997ff] text-[#2997ff] hover:bg-[#2997ff] hover:text-white text-[14px] transition-all cursor-pointer">Buy</button>
+            </div>
+          </div>
+
+          <!-- Sleek Spatial Visor Graphic -->
+          <div class="my-auto py-8 relative flex items-center justify-center">
+            <div class="w-[260px] sm:w-[310px] h-[135px] rounded-[68px] p-[6px] bg-gradient-to-b from-[#e5e5ea] via-[#8e8e93] to-[#3a3a3c] shadow-[0_0_60px_rgba(79,172,254,0.28)]">
+              <div class="w-full h-full rounded-[62px] bg-gradient-to-tr from-[#08090d] via-[#1b2436] to-[#384b6b] relative overflow-hidden flex items-center justify-center">
+                <!-- Laminated Glass Light Reflection -->
+                <div class="absolute -top-10 -left-10 w-[220px] h-[90px] bg-white/15 rotate-[-14deg] blur-md"></div>
+                <!-- EyeSight Subtle Aurora Wave -->
+                <div class="w-[180px] h-[44px] rounded-full bg-gradient-to-r from-[#00c6ff]/40 via-[#a855f7]/45 to-[#ec4899]/40 blur-md"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3: IPAD PRO -->
+        <article class="reveal-section bg-[#000000] text-white pt-12 pb-10 px-6 flex flex-col items-center text-center overflow-hidden min-h-[520px] sm:min-h-[580px] justify-between">
+          <div>
+            <h3 class="text-[32px] sm:text-[40px] font-semibold tracking-[-0.02em]">iPad Pro</h3>
+            <p class="mt-1.5 text-[19px] sm:text-[21px] text-[#f5f5f7]">Unbelievably thin. Incredibly powerful.</p>
+            <div class="mt-4 flex items-center justify-center gap-3">
+              <button onclick="openProductModal('ipadpro', 'learn')" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] transition-all cursor-pointer">Learn more</button>
+              <button onclick="openProductModal('ipadpro', 'buy')" class="px-4 py-2 rounded-full border border-[#2997ff] text-[#2997ff] hover:bg-[#2997ff] hover:text-white text-[14px] transition-all cursor-pointer">Buy</button>
+            </div>
+          </div>
+
+          <!-- Ultra-Thin Tandem OLED Visual -->
+          <div class="mt-8 w-full max-w-[340px] flex flex-col items-center">
+            <div class="w-[280px] sm:w-[320px] h-[200px] rounded-[20px] border-[5px] border-[#2c2c2e] bg-gradient-to-tr from-[#090d16] via-[#1b3b6f] to-[#00b4d8] p-4 shadow-[0_20px_50px_rgba(0,180,216,0.22)] flex flex-col justify-between relative overflow-hidden">
+              <div class="w-24 h-24 rounded-full bg-[#ff6b6b]/40 blur-xl absolute -bottom-4 -right-4"></div>
+              <span class="text-[11px] uppercase tracking-widest text-white/75 text-left">Ultra Retina XDR</span>
+              <div class="text-left">
+                <div class="text-[22px] font-semibold leading-tight">5.1 mm thin</div>
+                <div class="text-[12px] text-white/70">Apple M4 Chip • Apple Pencil Pro</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4: AIRPODS PRO 2 -->
+        <article class="reveal-section bg-[#000000] text-white pt-12 pb-10 px-6 flex flex-col items-center text-center overflow-hidden min-h-[520px] sm:min-h-[580px] justify-between">
+          <div>
+            <h3 class="text-[32px] sm:text-[40px] font-semibold tracking-[-0.02em]">AirPods Pro</h3>
+            <p class="mt-1.5 text-[19px] sm:text-[21px] text-[#f5f5f7]">Adaptive Audio. Now playing.</p>
+            <div class="mt-4 flex items-center justify-center gap-3">
+              <button onclick="openProductModal('airpodspro', 'learn')" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] transition-all cursor-pointer">Learn more</button>
+              <button onclick="openProductModal('airpodspro', 'buy')" class="px-4 py-2 rounded-full border border-[#2997ff] text-[#2997ff] hover:bg-[#2997ff] hover:text-white text-[14px] transition-all cursor-pointer">Buy</button>
+            </div>
+          </div>
+
+          <!-- AirPods Pro Acoustic Wave Graphic -->
+          <div class="my-auto relative flex items-center justify-center w-64 h-64">
+            <div class="wave-ring absolute w-40 h-40 rounded-full border border-[#2997ff]/40"></div>
+            <div class="wave-ring absolute w-40 h-40 rounded-full border border-[#34c759]/35" style="animation-delay: 1.4s"></div>
+            <div class="relative z-10 flex items-center gap-6">
+              <!-- Left AirPod -->
+              <div class="flex flex-col items-center -rotate-12">
+                <div class="w-12 h-14 rounded-full bg-gradient-to-br from-white via-[#f2f2f7] to-[#c7c7cc] shadow-lg relative">
+                  <div class="w-4 h-6 rounded-full bg-[#1c1c1e] absolute top-4 left-2"></div>
+                </div>
+                <div class="w-3.5 h-16 -mt-3 rounded-b-full bg-gradient-to-r from-[#f5f5f7] to-[#c7c7cc]"></div>
+              </div>
+              <!-- Right AirPod -->
+              <div class="flex flex-col items-center rotate-12">
+                <div class="w-12 h-14 rounded-full bg-gradient-to-bl from-white via-[#f2f2f7] to-[#c7c7cc] shadow-lg relative">
+                  <div class="w-4 h-6 rounded-full bg-[#1c1c1e] absolute top-4 right-2"></div>
+                </div>
+                <div class="w-3.5 h-16 -mt-3 rounded-b-full bg-gradient-to-l from-[#f5f5f7] to-[#c7c7cc]"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 5: APPLE TRADE IN -->
+        <article class="reveal-section bg-[#f5f5f7] text-[#1d1d1f] pt-12 pb-10 px-6 flex flex-col items-center text-center overflow-hidden min-h-[500px] sm:min-h-[540px] justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-[28px] sm:text-[34px] font-semibold tracking-[-0.02em]">
+              <svg class="w-6 h-7 fill-current -mt-1" viewBox="0 0 14 17"><path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/></svg>
+              <span>Trade In</span>
+            </div>
+            <p class="mt-2 text-[18px] sm:text-[21px] text-[#1d1d1f] max-w-[330px]">
+              Get $180–$650 in credit when you trade in iPhone 13 or higher.
+            </p>
+            <div class="mt-4">
+              <button onclick="openProductModal('tradein', 'learn')" class="px-5 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] transition-all cursor-pointer">Get your estimate</button>
+            </div>
+          </div>
+
+          <!-- Dual Phone Upgrade Illustration -->
+          <div class="my-auto pt-6 flex items-center justify-center gap-4">
+            <div class="w-28 h-48 rounded-[24px] bg-white border-4 border-[#d2d2d7] shadow-md p-2.5 flex flex-col justify-between -rotate-6">
+              <span class="text-[10px] font-semibold text-[#6e6e73]">iPhone 14 Pro</span>
+              <span class="px-2 py-1 rounded-full bg-[#f5f5f7] text-[10px] font-semibold text-[#1d1d1f]">$400 Credit</span>
+            </div>
+            <div class="w-9 h-9 rounded-full bg-[#0071e3] text-white flex items-center justify-center font-bold shadow-md z-10">⇄</div>
+            <div class="w-28 h-48 rounded-[24px] bg-[#1d1d1f] border-4 border-[#c7b299] shadow-xl p-2.5 flex flex-col justify-between rotate-6 text-white">
+              <span class="text-[10px] font-semibold text-white/75">iPhone 17 Pro</span>
+              <span class="px-2 py-1 rounded-full bg-[#0071e3] text-[10px] font-semibold">Upgraded</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 6: APPLE CARD -->
+        <article class="reveal-section bg-[#f5f5f7] text-[#1d1d1f] pt-12 pb-10 px-6 flex flex-col items-center text-center overflow-hidden min-h-[500px] sm:min-h-[540px] justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-[28px] sm:text-[34px] font-semibold tracking-[-0.02em]">
+              <svg class="w-6 h-7 fill-current -mt-1" viewBox="0 0 14 17"><path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/></svg>
+              <span>Card</span>
+            </div>
+            <p class="mt-2 text-[18px] sm:text-[21px] text-[#1d1d1f] max-w-[330px]">
+              Get up to 3% Daily Cash back with every purchase.
+            </p>
+            <div class="mt-4 flex items-center justify-center gap-3">
+              <button onclick="openProductModal('applecard', 'learn')" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] transition-all cursor-pointer">Learn more</button>
+              <button onclick="openProductModal('applecard', 'buy')" class="px-4 py-2 rounded-full border border-[#0071e3] text-[#0071e3] hover:bg-[#0071e3] hover:text-white text-[14px] transition-all cursor-pointer">Apply now</button>
+            </div>
+          </div>
+
+          <!-- Titanium Apple Card Visual -->
+          <div class="my-auto pt-6">
+            <div class="w-[290px] sm:w-[320px] h-[185px] rounded-[18px] bg-gradient-to-br from-[#ffffff] via-[#f2f2f5] to-[#dcdce2] border border-white shadow-[0_20px_40px_rgba(0,0,0,0.12)] p-6 flex flex-col justify-between text-left relative overflow-hidden">
+              <div class="flex items-center justify-between">
+                <svg class="w-6 h-7 fill-[#86868b]" viewBox="0 0 14 17"><path d="M13.072 13.261c-.283.649-.618 1.246-1.008 1.792-.528.738-.96 1.249-1.292 1.533-.515.469-1.067.709-1.659.723-.425 0-.937-.121-1.535-.366-.6-.244-1.151-.365-1.654-.365-.528 0-1.095.121-1.701.365-.607.245-1.096.373-1.469.386-.569.024-1.135-.221-1.698-.735-.362-.314-.814-.85-1.356-1.608-.581-.815-1.059-1.758-1.434-2.83C.186 10.985 0 9.936 0 8.927c0-1.163.293-2.164.881-3.002a4.324 4.324 0 0 1 1.573-1.418A4.28 4.28 0 0 1 4.442 4.02c.462 0 .997.143 1.607.427.608.284.999.43 1.171.437.13 0 .563-.17 1.3-.509.696-.315 1.284-.446 1.766-.395 1.306.105 2.288.617 2.944 1.537-1.168.707-1.745 1.696-1.732 2.966.013.991.384 1.815 1.114 2.472.502.452 1.095.736 1.781.853-.143.428-.298.842-.467 1.242h-.853zM10.483.48c0 .774-.283 1.497-.849 2.167-.683.797-1.508 1.258-2.404 1.186a2.393 2.393 0 0 1-.017-.292c0-.744.325-1.54.901-2.192.288-.33.655-.604 1.1-.823.444-.216.865-.336 1.261-.357.015.107.022.211.022.311h-.014z"/></svg>
+                <!-- EMV Chip -->
+                <div class="w-10 h-7 rounded-md bg-gradient-to-br from-[#e2d4b7] to-[#bfa980] border border-[#a8926a]"></div>
+              </div>
+              <div class="text-[13px] font-medium text-[#6e6e73] tracking-wider">Alex Morgan</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. INTERACTIVE APPLE TV+ CAROUSEL & SERVICES MARQUEE
+    ========================================================== -->
+    <section id="apple-tv-carousel" class="reveal-section bg-white pt-10 pb-8 overflow-hidden relative">
+      <!-- Carousel Viewport -->
+      <div class="relative w-full">
+        <!-- Prev / Next Arrow Controls -->
+        <button
+          id="tvPrevBtn"
+          aria-label="Previous show"
+          class="hidden sm:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/85 hover:bg-white text-[#1d1d1f] shadow-lg backdrop-blur-md items-center justify-center transition-all cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+
+        <button
+          id="tvNextBtn"
+          aria-label="Next show"
+          class="hidden sm:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/85 hover:bg-white text-[#1d1d1f] shadow-lg backdrop-blur-md items-center justify-center transition-all cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+        <!-- Slides Track -->
+        <div id="tvCarouselTrack" class="flex items-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
+          <!-- Populated dynamically by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Pagination Dots & Bottom-Right Play/Pause Control -->
+      <div class="max-w-[1280px] mx-auto px-6 mt-5 flex items-center justify-between">
+        <div class="w-8"></div>
+        <!-- Dots -->
+        <div id="tvCarouselDots" class="flex items-center gap-2.5"></div>
+        <!-- Play/Pause Toggle -->
+        <button
+          id="tvAutoplayToggle"
+          aria-label="Pause or play carousel"
+          class="w-7 h-7 rounded-full border border-[#86868b] text-[#1d1d1f] hover:bg-[#f5f5f7] flex items-center justify-center transition-colors cursor-pointer"
+        >
+          <svg id="tvPauseIcon" class="w-2.5 h-2.5 fill-current" viewBox="0 0 14 14">
+            <rect x="2.5" y="2" width="3" height="10" rx="0.8" />
+            <rect x="8.5" y="2" width="3" height="10" rx="0.8" />
+          </svg>
+          <svg id="tvPlayIcon" class="hidden w-2.5 h-2.5 fill-current ml-0.5" viewBox="0 0 14 14">
+            <path d="M3 2.2a.8.8 0 0 1 1.22-.68l7.5 4.8a.8.8 0 0 1 0 1.36l-7.5 4.8A.8.8 0 0 1 3 11.8V2.2Z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Secondary Continuous Apple Services Marquee (Arcade, Fitness+, Music) -->
+      <div class="mt-6 overflow-hidden">
+        <div class="services-marquee-track gap-4 px-2">
+          <!-- Set 1 -->
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#1d3557] to-[#457b9d] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Arcade</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Play now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">NBA 2K26 Arcade Edition</div>
+              <div class="text-[12px] text-white/75">No ads. No in-app purchases.</div>
+            </div>
+          </div>
+
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#2b2d42] to-[#ef233c] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Music</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Listen now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">Today’s Hits in Spatial Audio</div>
+              <div class="text-[12px] text-white/75">Lossless audio with Dolby Atmos.</div>
+            </div>
+          </div>
+
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#134e5e] to-[#71b280] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Fitness+</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Watch now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">Strength & HIIT with Gregg</div>
+              <div class="text-[12px] text-white/75">Real-time metrics from Apple Watch.</div>
+            </div>
+          </div>
+
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#3a0ca3] to-[#7209b7] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Arcade</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Play now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">Sonic Dream Team</div>
+              <div class="text-[12px] text-white/75">Exclusive on Apple Arcade.</div>
+            </div>
+          </div>
+
+          <!-- Duplicate Set for Seamless Loop -->
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#1d3557] to-[#457b9d] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Arcade</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Play now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">NBA 2K26 Arcade Edition</div>
+              <div class="text-[12px] text-white/75">No ads. No in-app purchases.</div>
+            </div>
+          </div>
+
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#2b2d42] to-[#ef233c] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Music</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Listen now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">Today’s Hits in Spatial Audio</div>
+              <div class="text-[12px] text-white/75">Lossless audio with Dolby Atmos.</div>
+            </div>
+          </div>
+
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#134e5e] to-[#71b280] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Fitness+</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Watch now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">Strength & HIIT with Gregg</div>
+              <div class="text-[12px] text-white/75">Real-time metrics from Apple Watch.</div>
+            </div>
+          </div>
+
+          <div class="w-[260px] sm:w-[320px] h-[165px] rounded-xl bg-gradient-to-br from-[#3a0ca3] to-[#7209b7] text-white p-5 flex flex-col justify-between shrink-0 group cursor-pointer" onclick="openProductModal('tvplus', 'learn')">
+            <div class="flex justify-between items-center">
+              <span class="text-[12px] font-semibold tracking-wide uppercase opacity-85"> Arcade</span>
+              <span class="px-2.5 py-1 rounded-full bg-white text-black text-[11px] font-semibold opacity-90 group-hover:scale-105 transition-transform">Play now</span>
+            </div>
+            <div>
+              <div class="text-[17px] font-semibold">Sonic Dream Team</div>
+              <div class="text-[12px] text-white/75">Exclusive on Apple Arcade.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       8. AUTHENTIC APPLE MULTI-COLUMN FOOTER
+  ========================================================== -->
+  <footer id="footer" class="bg-[#f5f5f7] text-[#6e6e73] text-[12px] leading-[1.45] mt-6">
+    <div class="max-w-[980px] mx-auto px-4 sm:px-6 pt-5 pb-8">
+      <!-- Legal Footnotes -->
+      <div class="space-y-2.5 pb-5 border-b border-[#d2d2d7] text-[12px] text-[#6e6e73]">
+        <p>
+          1. Trade-in values will vary based on the condition, year, and configuration of your eligible trade-in device. Not all devices are eligible for credit. You must be at least 18 years old to be eligible to trade in for credit or for an Apple Gift Card.
+        </p>
+        <p>
+          2. Apple Intelligence is available in beta on all iPhone 17 models, iPhone 16 models, and iPad and Mac models with M1 and later, with Siri and device language set to English.
+        </p>
+        <p>
+          A subscription is required for Apple TV+, Apple Arcade, Apple Fitness+, and Apple Music. Features are subject to change. Some features, applications, and services may not be available in all regions or all languages.
+        </p>
+      </div>
+
+      <!-- 5-Column Directory (Collapsible Accordion on Mobile) -->
+      <div class="py-6 grid grid-cols-1 md:grid-cols-5 gap-y-1 md:gap-x-6 border-b border-[#d2d2d7]">
+        <!-- Column 1 -->
+        <div class="space-y-5">
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>Shop and Learn</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#top" class="hover:underline">Store</a></li>
+              <li><a href="#macbook" class="hover:underline">Mac</a></li>
+              <li><a href="#bento-grid" class="hover:underline">iPad</a></li>
+              <li><a href="#iphone17" class="hover:underline">iPhone</a></li>
+              <li><a href="#bento-grid" class="hover:underline">Watch</a></li>
+              <li><a href="#bento-grid" class="hover:underline">Vision</a></li>
+              <li><a href="#bento-grid" class="hover:underline">AirPods</a></li>
+              <li><a href="#homeview" class="hover:underline">HomeView & Home</a></li>
+              <li><a href="#top" class="hover:underline">Accessories</a></li>
+              <li><a href="#top" class="hover:underline">Gift Cards</a></li>
+            </ul>
+          </div>
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>Apple Wallet</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#bento-grid" class="hover:underline">Wallet</a></li>
+              <li><a href="#bento-grid" class="hover:underline">Apple Card</a></li>
+              <li><a href="#bento-grid" class="hover:underline">Apple Pay</a></li>
+              <li><a href="#bento-grid" class="hover:underline">Apple Cash</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="space-y-5">
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>Account</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#footer" class="hover:underline">Manage Your Apple Account</a></li>
+              <li><a href="#footer" class="hover:underline">Apple Store Account</a></li>
+              <li><a href="#footer" class="hover:underline">iCloud.com</a></li>
+            </ul>
+          </div>
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>Entertainment</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#apple-tv-carousel" class="hover:underline">Apple One</a></li>
+              <li><a href="#apple-tv-carousel" class="hover:underline">Apple TV+</a></li>
+              <li><a href="#apple-tv-carousel" class="hover:underline">Apple Music</a></li>
+              <li><a href="#apple-tv-carousel" class="hover:underline">Apple Arcade</a></li>
+              <li><a href="#apple-tv-carousel" class="hover:underline">Apple Fitness+</a></li>
+              <li><a href="#apple-tv-carousel" class="hover:underline">Apple Podcasts</a></li>
+              <li><a href="#apple-tv-carousel" class="hover:underline">App Store</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div>
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>Apple Store</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#footer" class="hover:underline">Find a Store</a></li>
+              <li><a href="#footer" class="hover:underline">Genius Bar</a></li>
+              <li><a href="#footer" class="hover:underline">Today at Apple</a></li>
+              <li><a href="#footer" class="hover:underline">Apple Camp</a></li>
+              <li><a href="#footer" class="hover:underline">Apple Store App</a></li>
+              <li><a href="#footer" class="hover:underline">Certified Refurbished</a></li>
+              <li><a href="#bento-grid" class="hover:underline">Apple Trade In</a></li>
+              <li><a href="#footer" class="hover:underline">Financing</a></li>
+              <li><a href="#footer" class="hover:underline">Order Status</a></li>
+              <li><a href="#footer" class="hover:underline">Shopping Help</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Column 4 -->
+        <div class="space-y-5">
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>For Business</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#footer" class="hover:underline">Apple and Business</a></li>
+              <li><a href="#footer" class="hover:underline">Shop for Business</a></li>
+            </ul>
+          </div>
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>For Education</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#footer" class="hover:underline">Apple and Education</a></li>
+              <li><a href="#footer" class="hover:underline">Shop for K-12</a></li>
+              <li><a href="#footer" class="hover:underline">Shop for College</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Column 5 -->
+        <div class="space-y-5">
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>Apple Values</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#footer" class="hover:underline">Accessibility</a></li>
+              <li><a href="#footer" class="hover:underline">Education</a></li>
+              <li><a href="#footer" class="hover:underline">Environment</a></li>
+              <li><a href="#footer" class="hover:underline">Privacy</a></li>
+              <li><a href="#footer" class="hover:underline">Supply Chain</a></li>
+            </ul>
+          </div>
+          <div class="footer-col border-b md:border-none border-[#d2d2d7] py-2.5 md:py-0">
+            <button class="footer-acc-btn w-full flex items-center justify-between font-semibold text-[#1d1d1f] text-left cursor-pointer md:cursor-default">
+              <span>About Apple</span>
+              <span class="md:hidden text-[#6e6e73] text-sm transition-transform">+</span>
+            </button>
+            <ul class="footer-acc-list hidden md:block mt-2 space-y-2">
+              <li><a href="#footer" class="hover:underline">Newsroom</a></li>
+              <li><a href="#footer" class="hover:underline">Apple Leadership</a></li>
+              <li><a href="#footer" class="hover:underline">Career Opportunities</a></li>
+              <li><a href="#footer" class="hover:underline">Investors</a></li>
+              <li><a href="#footer" class="hover:underline">Ethics & Compliance</a></li>
+              <li><a href="#footer" class="hover:underline">Events</a></li>
+              <li><a href="#footer" class="hover:underline">Contact Apple</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Copyright & Locale Bar -->
+      <div class="pt-4 space-y-2.5">
+        <p>
+          More ways to shop: <a href="#footer" class="text-[#0066cc] underline">Find an Apple Store</a> or <a href="#footer" class="text-[#0066cc] underline">other retailer</a> near you. Or call 1-800-MY-APPLE.
+        </p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-1">
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>Copyright © 2026 Apple Inc. All rights reserved.</span>
+            <div class="flex flex-wrap items-center gap-x-2 text-[#424245]">
+              <a href="#footer" class="hover:underline">Privacy Policy</a>
+              <span>|</span>
+              <a href="#footer" class="hover:underline">Terms of Use</a>
+              <span>|</span>
+              <a href="#footer" class="hover:underline">Sales and Refunds</a>
+              <span>|</span>
+              <a href="#footer" class="hover:underline">Legal</a>
+              <span>|</span>
+              <a href="#footer" class="hover:underline">Site Map</a>
+            </div>
+          </div>
+          <button id="localeSwitcher" class="text-[#424245] hover:underline text-left sm:text-right cursor-pointer">
+            United States
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       7. INTERACTIVE QUICK-VIEW / BUY MODAL SHEET
+  ========================================================== -->
+  <div id="productModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
+    <div class="bg-white rounded-[28px] max-w-[540px] w-full p-6 sm:p-8 shadow-2xl relative transform transition-all">
+      <button id="closeProductModal" aria-label="Close modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#e8e8ed] hover:bg-[#d2d2d7] text-[#1d1d1f] flex items-center justify-center cursor-pointer">
+        ✕
+      </button>
+      <div id="modalBody">
+        <!-- Dynamically injected product details -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="appleToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full bg-[#1d1d1f]/95 text-white text-[13px] font-medium shadow-xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    Added to your Apple Bag.
+  </div>
+
+  <!-- =========================================================
+       JAVASCRIPT INTERACTIVITY, CAROUSELS & ANIMATIONS
+  ========================================================== -->
+  <script>
+    // ---------------------------------------------------------
+    // 1. PRODUCT DATABASE FOR MODALS & BAG
+    // ---------------------------------------------------------
+    const PRODUCTS = {
+      homeview: {
+        badge: 'NEW',
+        title: 'Apple HomeView',
+        tagline: 'Designed for life at home.',
+        price: 299,
+        description:
+          'A vibrant 7-inch square Liquid Retina smart display paired with room-filling spatial acoustic speakers. Control your smart home, cook hands-free with Apple Intelligence, and stay connected with Center Stage FaceTime.',
+        specs: ['7" Edge-to-Edge Square Display', '360° Spatial Acoustic Speaker', 'Apple Intelligence & Siri Built-In', 'Thread & Matter Smart Home Hub'],
+        finishes: ['Silver', 'Warm Stone'],
+      },
+      iphone17pro: {
+        badge: 'APPLE INTELLIGENCE',
+        title: 'iPhone 17 Pro',
+        tagline: 'Titanium. So strong. So light. So Pro.',
+        price: 999,
+        description:
+          'Forged in aerospace-grade titanium with the A19 Pro chip, Camera Control, 4K 120 fps Dolby Vision, and next-generation Apple Intelligence.',
+        specs: ['6.3" Super Retina XDR ProMotion', 'A19 Pro Chip with 6-Core GPU', '48MP Fusion + 5x Telephoto', 'Up to 33 hours video playback'],
+        finishes: ['Desert Titanium', 'Natural Titanium', 'White Titanium', 'Black Titanium'],
+      },
+      macbookair: {
+        badge: 'M4 CHIP',
+        title: 'MacBook Air 13"',
+        tagline: 'Lean. Mean. M4 machine.',
+        price: 1099,
+        description:
+          'Strikingly thin and fast so you can work, play, or create anywhere. Featuring the Apple M4 chip and up to 18 hours of battery life.',
+        specs: ['13.6" Liquid Retina Display', 'Apple M4 10-Core CPU', '16GB Unified Memory', '18-Hour Battery Life'],
+        finishes: ['Midnight', 'Starlight', 'Space Gray', 'Silver'],
+      },
+      watch11: {
+        badge: 'SERIES 11',
+        title: 'Apple Watch Series 11',
+        tagline: 'Thinstant classic.',
+        price: 399,
+        description:
+          'Our thinnest, most advanced display ever with sleep apnea notifications, faster charging, and water temperature sensing.',
+        specs: ['Wide-Angle Always-On OLED', 'S11 SiP Processor', 'ECG & Blood Oxygen Apps', 'Water resistant to 50m'],
+        finishes: ['Jet Black', 'Rose Gold', 'Silver Aluminum'],
+      },
+      visionpro: {
+        badge: 'SPATIAL COMPUTING',
+        title: 'Apple Vision Pro',
+        tagline: 'Welcome to the era of spatial computing.',
+        price: 3499,
+        description:
+          'Seamlessly blends digital content with your physical space using visionOS, micro-OLED displays with 23 million pixels, and Spatial Audio.',
+        specs: ['Dual 4K Micro-OLED Displays', 'Apple M2 + R1 Dual-Chip', 'EyeSight & Persona', 'Spatial Audio Pods'],
+        finishes: ['256GB', '512GB', '1TB'],
+      },
+      ipadpro: {
+        badge: 'ULTRA RETINA XDR',
+        title: 'iPad Pro 11"',
+        tagline: 'Unbelievably thin. Incredibly powerful.',
+        price: 999,
+        description:
+          'Tandem OLED display technology meets outrageous M4 performance in an impossibly thin 5.3mm design.',
+        specs: ['Tandem OLED XDR Display', 'Apple M4 Chip', 'Supports Apple Pencil Pro', 'Thunderbolt / USB 4'],
+        finishes: ['Space Black', 'Silver'],
+      },
+      airpodspro: {
+        badge: 'ADAPTIVE AUDIO',
+        title: 'AirPods Pro (USB-C)',
+        tagline: 'Adaptive Audio. Now playing.',
+        price: 249,
+        description:
+          'Up to 2x more Active Noise Cancellation, Transparency mode, Conversation Awareness, and Personalized Spatial Audio.',
+        specs: ['H2 Apple Silicon Chip', '2x Active Noise Cancellation', 'Dust, Sweat & Water Resistant', 'MagSafe USB-C Case'],
+        finishes: ['White'],
+      },
+      tradein: {
+        badge: 'APPLE TRADE IN',
+        title: 'Apple Trade In',
+        tagline: 'Turn the device you have into the one you want.',
+        price: 0,
+        description:
+          'Get $180–$650 in instant credit toward a new iPhone when you trade in an iPhone 13 or newer. It’s good for you and the planet.',
+        specs: ['Instant credit at checkout', 'Free prepaid trade-in kit', 'Responsible device recycling'],
+        finishes: ['iPhone 15 Pro ($650)', 'iPhone 14 Pro ($450)', 'iPhone 13 ($220)'],
+      },
+      applecard: {
+        badge: 'APPLE CARD',
+        title: 'Apple Card',
+        tagline: 'The simplicity of Apple. In a credit card.',
+        price: 0,
+        description:
+          'Get up to 3% Daily Cash back on every purchase with no annual fees, no late fees, and Apple Card Monthly Installments at 0% APR.',
+        specs: ['3% Daily Cash at Apple', '2% with Apple Pay everywhere', 'Titanium physical card'],
+        finishes: ['Titanium White'],
+      },
+      tvplus: {
+        badge: 'APPLE TV+',
+        title: 'Apple TV+ Subscription',
+        tagline: 'Stream award-winning Apple Originals.',
+        price: 9.99,
+        description:
+          'Watch critically acclaimed series, compelling dramas, groundbreaking documentaries, kids’ entertainment, and live sports in 4K HDR.',
+        specs: ['4K Dolby Vision & Dolby Atmos', 'Ad-free streaming', 'Share with up to 5 family members'],
+        finishes: ['Monthly Plan ($9.99/mo)'],
+      },
+    };
+
+    let shoppingBag = [];
+
+    // ---------------------------------------------------------
+    // 2. MEGA MENU & NAVIGATION LOGIC
+    // ---------------------------------------------------------
+    const MEGA_MENUS = {
+      store: {
+        cols: [
+          { title: 'Shop', big: true, items: ['Shop the Latest', 'Mac', 'iPad', 'iPhone', 'Apple Watch', 'Apple Vision Pro', 'Accessories'] },
+          { title: 'Quick Links', big: false, items: ['Find a Store', 'Order Status', 'Apple Trade In', 'Financing'] },
+          { title: 'Shop Special Stores', big: false, items: ['Certified Refurbished', 'Education', 'Business'] },
+        ],
+      },
+      mac: {
+        cols: [
+          { title: 'Explore Mac', big: true, items: ['Explore All Mac', 'MacBook Air', 'MacBook Pro', 'iMac', 'Mac mini', 'Mac Studio', 'Mac Pro'] },
+          { title: 'Shop Mac', big: false, items: ['Shop Mac', 'Mac Accessories', 'Apple Trade In', 'Financing'] },
+          { title: 'More from Mac', big: false, items: ['Mac Support', 'AppleCare+ for Mac', 'macOS Sequoia', 'Apple Intelligence'] },
+        ],
+      },
+      ipad: {
+        cols: [
+          { title: 'Explore iPad', big: true, items: ['Explore All iPad', 'iPad Pro', 'iPad Air', 'iPad', 'iPad mini', 'Apple Pencil', 'Keyboards'] },
+          { title: 'Shop iPad', big: false, items: ['Shop iPad', 'iPad Accessories', 'Apple Trade In'] },
+          { title: 'More from iPad', big: false, items: ['iPad Support', 'iPadOS 18', 'Apple Intelligence'] },
+        ],
+      },
+      iphone: {
+        cols: [
+          { title: 'Explore iPhone', big: true, items: ['Explore All iPhone', 'iPhone 17 Pro', 'iPhone 17', 'iPhone 16', 'iPhone SE'] },
+          { title: 'Shop iPhone', big: false, items: ['Shop iPhone', 'iPhone Accessories', 'Apple Trade In', 'Carrier Deals'] },
+          { title: 'More from iPhone', big: false, items: ['iPhone Support', 'iOS 19', 'Apple Intelligence', 'iCloud+'] },
+        ],
+      },
+      watch: {
+        cols: [
+          { title: 'Explore Watch', big: true, items: ['Explore All Apple Watch', 'Apple Watch Series 11', 'Apple Watch Ultra 3', 'Apple Watch SE'] },
+          { title: 'Shop Watch', big: false, items: ['Shop Apple Watch', 'Apple Watch Bands', 'Apple Watch Accessories'] },
+          { title: 'More from Watch', big: false, items: ['Apple Watch Support', 'watchOS 11', 'Apple Fitness+'] },
+        ],
+      },
+      vision: {
+        cols: [
+          { title: 'Explore Vision', big: true, items: ['Apple Vision Pro', 'Guided Tour', 'Tech Specs'] },
+          { title: 'Shop Vision', big: false, items: ['Shop Apple Vision Pro', 'Apple Vision Pro Accessories', 'Book a Demo'] },
+          { title: 'More from Vision', big: false, items: ['Apple Vision Pro Support', 'visionOS 2'] },
+        ],
+      },
+      airpods: {
+        cols: [
+          { title: 'Explore AirPods', big: true, items: ['Explore All AirPods', 'AirPods 4', 'AirPods Pro', 'AirPods Max'] },
+          { title: 'Shop AirPods', big: false, items: ['Shop AirPods', 'AirPods Accessories'] },
+          { title: 'More from AirPods', big: false, items: ['AirPods Support', 'Apple Music'] },
+        ],
+      },
+      home: {
+        cols: [
+          { title: 'Explore Home', big: true, items: ['Explore All Home', 'HomeView', 'HomePod', 'HomePod mini', 'Apple TV 4K'] },
+          { title: 'Shop Home', big: false, items: ['Shop HomeView', 'Shop HomePod', 'Smart Home Accessories'] },
+          { title: 'More from Home', big: false, items: ['Home Support', 'Home App', 'Apple Intelligence at Home'] },
+        ],
+      },
+      entertainment: {
+        cols: [
+          { title: 'Explore Entertainment', big: true, items: ['Apple One', 'Apple TV+', 'Apple Music', 'Apple Arcade', 'Apple Fitness+', 'Apple Podcasts'] },
+          { title: 'Support', big: false, items: ['Apple TV+ Support', 'Apple Music Support'] },
+        ],
+      },
+      accessories: {
+        cols: [
+          { title: 'Shop Accessories', big: true, items: ['Shop All Accessories', 'Mac', 'iPad', 'iPhone', 'Apple Watch', 'HomeView'] },
+          { title: 'Explore Accessories', big: false, items: ['Made by Apple', 'Beats by Dr. Dre', 'AirTag'] },
+        ],
+      },
+      support: {
+        cols: [
+          { title: 'Explore Support', big: true, items: ['iPhone', 'Mac', 'iPad', 'Watch', 'Apple Vision Pro', 'AirPods', 'HomeView'] },
+          { title: 'Get Help', big: false, items: ['Community', 'Check Coverage', 'Repair'] },
+          { title: 'Helpful Topics', big: false, items: ['Get AppleCare+', 'Apple Account and Password', 'Billing & Subscriptions'] },
+        ],
+      },
+    };
+
+    const navDrawer = document.getElementById('navMegaDrawer');
+    const drawerContent = document.getElementById('megaDrawerContent');
+    const blurOverlay = document.getElementById('pageBlurOverlay');
+    const globalHeader = document.getElementById('globalHeader');
+
+    function openMegaDrawer(html) {
+      drawerContent.innerHTML = html;
+      navDrawer.classList.add('active');
+      blurOverlay.classList.add('active');
+      globalHeader.classList.add('menu-open');
+    }
+
+    function closeMegaDrawer() {
+      navDrawer.classList.remove('active');
+      blurOverlay.classList.remove('active');
+      globalHeader.classList.remove('menu-open');
+    }
+
+    document.querySelectorAll('.nav-trigger').forEach((btn) => {
+      btn.addEventListener('mouseenter', () => {
+        const key = btn.dataset.menu;
+        const data = MEGA_MENUS[key];
+        if (!data) return;
+
+        const colsHtml = data.cols
+          .map(
+            (col) => `
+            <div>
+              <div class="text-[12px] text-[#6e6e73] mb-3">${col.title}</div>
+              <ul class="space-y-2">
+                ${col.items
+                  .map(
+                    (item) => `
+                  <li>
+                    <a href="#homeview" onclick="closeMegaDrawer()" class="${
+                      col.big
+                        ? 'text-[22px] font-semibold tracking-[-0.015em] text-[#1d1d1f] hover:text-[#0071e3]'
+                        : 'text-[13px] font-medium text-[#333336] hover:text-[#0071e3]'
+                    } transition-colors block">${item}</a>
+                  </li>`
+                  )
+                  .join('')}
+              </ul>
+            </div>`
+          )
+          .join('');
+
+        openMegaDrawer(`<div class="grid grid-cols-3 gap-10">${colsHtml}</div>`);
+      });
+    });
+
+    globalHeader.addEventListener('mouseleave', () => {
+      closeMegaDrawer();
+    });
+
+    blurOverlay.addEventListener('click', closeMegaDrawer);
+
+    // Search Button Overlay
+    document.getElementById('searchToggleBtn').addEventListener('click', () => {
+      openMegaDrawer(`
+        <div class="max-w-[640px] mx-auto">
+          <div class="flex items-center gap-3 border-b border-[#d2d2d7] pb-3">
+            <svg class="w-5 h-5 text-[#6e6e73]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <circle cx="10.5" cy="10.5" r="6.75" />
+              <path stroke-linecap="round" d="M15.5 15.5L20.5 20.5" />
+            </svg>
+            <input id="appleSearchInput" type="text" placeholder="Search apple.com" class="w-full bg-transparent text-[22px] font-medium text-[#1d1d1f] placeholder-[#86868b] focus:outline-none" autofocus />
+          </div>
+          <div class="mt-5">
+            <div class="text-[12px] text-[#6e6e73] mb-2.5">Quick Links</div>
+            <ul class="space-y-2 text-[14px] font-medium text-[#1d1d1f]">
+              <li><a href="#homeview" onclick="closeMegaDrawer()" class="hover:text-[#0071e3] flex items-center gap-2">→ Apple HomeView</a></li>
+              <li><a href="#iphone17" onclick="closeMegaDrawer()" class="hover:text-[#0071e3] flex items-center gap-2">→ iPhone 17 Pro</a></li>
+              <li><a href="#macbook" onclick="closeMegaDrawer()" class="hover:text-[#0071e3] flex items-center gap-2">→ MacBook Air M4</a></li>
+              <li><a href="#bento-grid" onclick="closeMegaDrawer()" class="hover:text-[#0071e3] flex items-center gap-2">→ Apple Vision Pro</a></li>
+            </ul>
+          </div>
+        </div>
+      `);
+      setTimeout(() => document.getElementById('appleSearchInput')?.focus(), 80);
+    });
+
+    // Shopping Bag Drawer
+    document.getElementById('bagToggleBtn').addEventListener('click', renderBagDrawer);
+
+    function renderBagDrawer() {
+      if (shoppingBag.length === 0) {
+        openMegaDrawer(`
+          <div class="max-w-[640px] mx-auto py-4">
+            <h3 class="text-[24px] font-semibold text-[#1d1d1f]">Your Bag is empty.</h3>
+            <p class="text-[14px] text-[#6e6e73] mt-1">Explore HomeView, iPhone 17 Pro, or MacBook Air and add items to your bag.</p>
+          </div>
+        `);
+        return;
+      }
+
+      const total = shoppingBag.reduce((sum, item) => sum + item.price, 0);
+      openMegaDrawer(`
+        <div class="max-w-[640px] mx-auto">
+          <div class="flex items-center justify-between pb-4 border-b border-[#d2d2d7]">
+            <h3 class="text-[22px] font-semibold text-[#1d1d1f]">Your Bag (${shoppingBag.length})</h3>
+            <span class="text-[16px] font-semibold text-[#1d1d1f]">Total: $${total.toLocaleString()}</span>
+          </div>
+          <ul class="divide-y divide-[#e8e8ed] max-h-[200px] overflow-y-auto my-2">
+            ${shoppingBag
+              .map(
+                (item, idx) => `
+              <li class="py-3 flex items-center justify-between text-[14px]">
+                <div>
+                  <span class="font-semibold text-[#1d1d1f]">${item.title}</span>
+                  <span class="text-[#6e6e73] ml-2">(${item.finish})</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="font-medium">$${item.price.toLocaleString()}</span>
+                  <button onclick="removeFromBag(${idx})" class="text-[#0071e3] hover:underline text-[12px] cursor-pointer">Remove</button>
+                </div>
+              </li>`
+              )
+              .join('')}
+          </ul>
+          <div class="pt-3 flex justify-end">
+            <button onclick="checkoutBag()" class="px-6 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[14px] font-medium cursor-pointer">Check Out</button>
+          </div>
+        </div>
+      `);
+    }
+
+    function removeFromBag(index) {
+      shoppingBag.splice(index, 1);
+      updateBagBadge();
+      renderBagDrawer();
+    }
+
+    function checkoutBag() {
+      shoppingBag = [];
+      updateBagBadge();
+      closeMegaDrawer();
+      showToast('Thank you! Your Apple Store order simulation is complete.');
+    }
+
+    function updateBagBadge() {
+      const badge = document.getElementById('bagBadge');
+      if (shoppingBag.length > 0) {
+        badge.textContent = shoppingBag.length;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    // Mobile Hamburger Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const closeMobileIcon = document.getElementById('closeMobileIcon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isHidden = mobileNavDrawer.classList.contains('hidden');
+      mobileNavDrawer.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('hidden', isHidden);
+      closeMobileIcon.classList.toggle('hidden', !isHidden);
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileNavDrawer.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeMobileIcon.classList.add('hidden');
+      });
+    });
+
+    // ---------------------------------------------------------
+    // 3. HOMEVIEW HERO PLAY/PAUSE & INTERACTIVE CLOCK
+    // ---------------------------------------------------------
+    const hvAnimToggle = document.getElementById('homeviewAnimToggle');
+    const hvSection = document.getElementById('homeview');
+    const hvPauseIcon = document.getElementById('hvPauseIcon');
+    const hvPlayIcon = document.getElementById('hvPlayIcon');
+    let hvPaused = false;
+
+    hvAnimToggle.addEventListener('click', () => {
+      hvPaused = !hvPaused;
+      hvSection.classList.toggle('animations-paused', hvPaused);
+      hvPauseIcon.classList.toggle('hidden', hvPaused);
+      hvPlayIcon.classList.toggle('hidden', !hvPaused);
+    });
+
+    function cycleHomeViewScene(scene) {
+      const clockEl = document.getElementById('homeviewClockDisplay');
+      if (scene === 'clock') {
+        const now = new Date();
+        const hrs = String(now.getHours()).padStart(2, '0');
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        clockEl.textContent = clockEl.textContent === '10:09' ? `${hrs}:${mins}` : '10:09';
+      } else {
+        openProductModal('homeview', 'learn');
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 4. IPHONE 17 PRO TITANIUM SWATCH SELECTOR
+    // ---------------------------------------------------------
+    document.querySelectorAll('.titanium-swatch').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.titanium-swatch').forEach((s) => {
+          s.classList.remove('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-black');
+          s.classList.add('opacity-75');
+        });
+        btn.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-black');
+        btn.classList.remove('opacity-75');
+
+        const finish = btn.dataset.finish;
+        const chassis = btn.dataset.chassis;
+        const glow = btn.dataset.glow;
+
+        document.getElementById('titaniumFinishLabel').textContent = finish;
+        document.getElementById('iphoneAmbientGlow').style.background = glow;
+        document.getElementById('iphoneChassisFrame').style.background = `linear-gradient(135deg, #ffffff 0%, ${chassis} 45%, #3a3a3d 100%)`;
+      });
+    });
+
+    // ---------------------------------------------------------
+    // 5. APPLE TV+ CAROUSEL (CENTER-FOCUSED + AUTOPLAY)
+    // ---------------------------------------------------------
+    const TV_SHOWS = [
+      {
+        title: 'SEVERANCE',
+        genre: 'Thriller',
+        tagline: 'There’s more to work than life.',
+        bg: 'linear-gradient(135deg, #0b192c 0%, #1e3e62 55%, #09121e 100%)',
+        accent: '#64dfdf',
+      },
+      {
+        title: 'THE STUDIO',
+        genre: 'Comedy',
+        tagline: 'Seth Rogen stars in a chaotic Hollywood satire.',
+        bg: 'linear-gradient(135deg, #3d1e08 0%, #9c4a1a 55%, #241004 100%)',
+        accent: '#ffb703',
+      },
+      {
+        title: 'FOUNDATION',
+        genre: 'Sci-Fi',
+        tagline: 'All empires fall.',
+        bg: 'linear-gradient(135deg, #1b1138 0%, #4c2a85 55%, #0f0821 100%)',
+        accent: '#c77dff',
+      },
+      {
+        title: 'SILO',
+        genre: 'Sci-Fi',
+        tagline: 'The truth will surface.',
+        bg: 'linear-gradient(135deg, #1d262b 0%, #435763 55%, #111619 100%)',
+        accent: '#90e0ef',
+      },
+      {
+        title: 'TED LASSO',
+        genre: 'Comedy',
+        tagline: 'Kindness makes a comeback.',
+        bg: 'linear-gradient(135deg, #0a369d 0%, #4472ca 55%, #072266 100%)',
+        accent: '#ffd166',
+      },
+      {
+        title: 'F1 THE MOVIE',
+        genre: 'Action',
+        tagline: 'Speed has a new name. Only in theaters & Apple TV+.',
+        bg: 'linear-gradient(135deg, #2b0909 0%, #9e1919 55%, #170404 100%)',
+        accent: '#ff4d6d',
+      },
+    ];
+
+    let activeSlide = 0;
+    let tvPlaying = true;
+    let tvInterval = null;
+
+    const tvTrack = document.getElementById('tvCarouselTrack');
+    const tvDots = document.getElementById('tvCarouselDots');
+
+    function initTvCarousel() {
+      tvTrack.innerHTML = TV_SHOWS.map(
+        (show, idx) => `
+        <div class="tv-slide shrink-0 px-2 sm:px-3 transition-all duration-500 cursor-pointer" data-index="${idx}" onclick="goToTvSlide(${idx})">
+          <div class="w-[82vw] sm:w-[68vw] lg:w-[940px] h-[340px] sm:h-[480px] rounded-[18px] relative overflow-hidden p-6 sm:p-12 flex flex-col justify-between text-white shadow-xl" style="background: ${show.bg};">
+            <!-- Subtle Cinematic Light Flare -->
+            <div class="absolute -right-16 -top-16 w-80 h-80 rounded-full blur-3xl opacity-35" style="background: ${show.accent};"></div>
+
+            <!-- Top Apple TV+ Mark -->
+            <div class="flex items-center justify-between z-10">
+              <span class="text-[16px] sm:text-[20px] font-semibold tracking-tight"> tv+</span>
+              <span class="px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] uppercase tracking-widest">4K Dolby Vision</span>
+            </div>
+
+            <!-- Center Title Typography -->
+            <div class="my-auto text-center z-10">
+              <h3 class="text-[34px] sm:text-[62px] font-bold tracking-[0.08em] uppercase drop-shadow-md">${show.title}</h3>
+            </div>
+
+            <!-- Bottom Stream Now CTA & Genre -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 z-10">
+              <button onclick="event.stopPropagation(); openProductModal('tvplus', 'learn')" class="w-fit px-5 py-2.5 rounded-full bg-white hover:bg-[#f5f5f7] text-[#1d1d1f] text-[14px] font-semibold transition-transform hover:scale-105 cursor-pointer">
+                Stream now
+              </button>
+              <p class="text-[15px] sm:text-[18px] text-white/95">
+                <strong class="font-semibold">${show.genre}</strong> <span class="mx-1.5 opacity-60">•</span> ${show.tagline}
+              </p>
+            </div>
+          </div>
+        </div>`
+      ).join('');
+
+      tvDots.innerHTML = TV_SHOWS.map(
+        (_, idx) => `
+        <button onclick="goToTvSlide(${idx})" aria-label="Go to slide ${idx + 1}" class="tv-dot w-2 h-2 rounded-full transition-all cursor-pointer ${
+          idx === 0 ? 'bg-[#1d1d1f] w-2.5' : 'bg-[#86868b]/50 hover:bg-[#86868b]'
+        }"></button>`
+      ).join('');
+
+      updateTvCarouselPosition();
+      startTvAutoplay();
+    }
+
+    function updateTvCarouselPosition() {
+      const slides = document.querySelectorAll('.tv-slide');
+      if (!slides.length) return;
+
+      const slideWidth = slides[0].offsetWidth;
+      const viewportWidth = window.innerWidth;
+      const offset = viewportWidth / 2 - slideWidth / 2 - activeSlide * slideWidth;
+      tvTrack.style.transform = `translateX(${offset}px)`;
+
+      slides.forEach((slide, idx) => {
+        slide.style.opacity = idx === activeSlide ? '1' : '0.45';
+        slide.style.transform = idx === activeSlide ? 'scale(1)' : 'scale(0.96)';
+      });
+
+      document.querySelectorAll('.tv-dot').forEach((dot, idx) => {
+        dot.className = `tv-dot h-2 rounded-full transition-all cursor-pointer ${
+          idx === activeSlide ? 'bg-[#1d1d1f] w-3' : 'bg-[#86868b]/50 w-2 hover:bg-[#86868b]'
+        }`;
+      });
+    }
+
+    function goToTvSlide(index) {
+      activeSlide = (index + TV_SHOWS.length) % TV_SHOWS.length;
+      updateTvCarouselPosition();
+    }
+
+    document.getElementById('tvPrevBtn').addEventListener('click', () => goToTvSlide(activeSlide - 1));
+    document.getElementById('tvNextBtn').addEventListener('click', () => goToTvSlide(activeSlide + 1));
+
+    function startTvAutoplay() {
+      clearInterval(tvInterval);
+      if (tvPlaying) {
+        tvInterval = setInterval(() => goToTvSlide(activeSlide + 1), 4500);
+      }
+    }
+
+    document.getElementById('tvAutoplayToggle').addEventListener('click', () => {
+      tvPlaying = !tvPlaying;
+      document.getElementById('tvPauseIcon').classList.toggle('hidden', !tvPlaying);
+      document.getElementById('tvPlayIcon').classList.toggle('hidden', tvPlaying);
+      startTvAutoplay();
+    });
+
+    window.addEventListener('resize', updateTvCarouselPosition);
+
+    // ---------------------------------------------------------
+    // 6. PRODUCT QUICK-VIEW & BUY MODAL
+    // ---------------------------------------------------------
+    const productModal = document.getElementById('productModal');
+    const modalBody = document.getElementById('modalBody');
+
+    function openProductModal(productKey, mode) {
+      const p = PRODUCTS[productKey] || PRODUCTS.homeview;
+      let selectedFinish = p.finishes[0];
+
+      modalBody.innerHTML = `
+        <div class="text-[11px] font-bold tracking-[0.14em] text-[#bf4800] uppercase">${p.badge}</div>
+        <h3 class="text-[28px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#1d1d1f] mt-1">${p.title}</h3>
+        <p class="text-[16px] text-[#6e6e73] mt-0.5">${p.tagline}</p>
+
+        <p class="mt-4 text-[14px] leading-relaxed text-[#333336]">${p.description}</p>
+
+        <div class="mt-5">
+          <div class="text-[12px] font-semibold text-[#1d1d1f] mb-2">Choose Option / Finish:</div>
+          <div class="flex flex-wrap gap-2" id="modalFinishOptions">
+            ${p.finishes
+              .map(
+                (fin, idx) => `
+              <button type="button" data-fin="${fin}" class="modal-fin-btn px-3.5 py-1.5 rounded-full text-[13px] border transition-all cursor-pointer ${
+                idx === 0
+                  ? 'border-[#0071e3] bg-[#0071e3]/10 text-[#0071e3] font-medium'
+                  : 'border-[#d2d2d7] text-[#1d1d1f] hover:border-[#86868b]'
+              }">${fin}</button>`
+              )
+              .join('')}
+          </div>
+        </div>
+
+        <ul class="mt-5 space-y-1.5 bg-[#f5f5f7] rounded-2xl p-4 text-[13px] text-[#1d1d1f]">
+          ${p.specs.map((s) => `<li class="flex items-center gap-2"><span class="text-[#0071e3]">✓</span> ${s}</li>`).join('')}
+        </ul>
+
+        <div class="mt-6 pt-4 border-t border-[#e8e8ed] flex items-center justify-between">
+          <div>
+            <div class="text-[12px] text-[#6e6e73]">${p.price > 0 ? 'Starting at' : 'Program'}</div>
+            <div class="text-[22px] font-semibold text-[#1d1d1f]">${p.price > 0 ? '$' + p.price.toLocaleString() : 'Free Estimate'}</div>
+          </div>
+          <button id="modalPrimaryAction" class="px-6 py-3 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[15px] font-medium transition-all cursor-pointer">
+            ${p.price > 0 ? 'Add to Bag' : 'Continue'}
+          </button>
+        </div>
+      `;
+
+      document.querySelectorAll('.modal-fin-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.modal-fin-btn').forEach((b) => {
+            b.className = 'modal-fin-btn px-3.5 py-1.5 rounded-full text-[13px] border border-[#d2d2d7] text-[#1d1d1f] hover:border-[#86868b] transition-all cursor-pointer';
+          });
+          btn.className = 'modal-fin-btn px-3.5 py-1.5 rounded-full text-[13px] border border-[#0071e3] bg-[#0071e3]/10 text-[#0071e3] font-medium transition-all cursor-pointer';
+          selectedFinish = btn.dataset.fin;
+        });
+      });
+
+      document.getElementById('modalPrimaryAction').addEventListener('click', () => {
+        if (p.price > 0) {
+          shoppingBag.push({ title: p.title, price: p.price, finish: selectedFinish });
+          updateBagBadge();
+          showToast(`${p.title} (${selectedFinish}) added to Bag.`);
+        } else {
+          showToast(`${p.title} request started.`);
+        }
+        productModal.classList.add('hidden');
+      });
+
+      productModal.classList.remove('hidden');
+    }
+
+    document.getElementById('closeProductModal').addEventListener('click', () => {
+      productModal.classList.add('hidden');
+    });
+
+    productModal.addEventListener('click', (e) => {
+      if (e.target === productModal) productModal.classList.add('hidden');
+    });
+
+    function showToast(msg) {
+      const toast = document.getElementById('appleToast');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2800);
+    }
+
+    // ---------------------------------------------------------
+    // 7. FOOTER ACCORDIONS & LOCALE SWITCHER
+    // ---------------------------------------------------------
+    document.querySelectorAll('.footer-acc-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth >= 768) return;
+        const list = btn.nextElementSibling;
+        const icon = btn.querySelector('span:last-child');
+        list.classList.toggle('hidden');
+        icon.textContent = list.classList.contains('hidden') ? '+' : '×';
+      });
+    });
+
+    const localeBtn = document.getElementById('localeSwitcher');
+    localeBtn.addEventListener('click', () => {
+      localeBtn.textContent =
+        localeBtn.textContent.trim() === 'United States' ? "O'zbekiston" : 'United States';
+    });
+
+    // ---------------------------------------------------------
+    // 8. SCROLL REVEAL OBSERVER & INITIALIZATION
+    // ---------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      initTvCarousel();
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      document.querySelectorAll('.reveal-section').forEach((sec) => observer.observe(sec));
+    });
+  </script>
+</body>
+</html>
